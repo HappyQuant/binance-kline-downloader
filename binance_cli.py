@@ -4,7 +4,11 @@
 import requests
 import time
 from enum import Enum
-from utils import dt
+
+
+class KLineSymbol(Enum):
+    BtcUsdt = "BTCUSDT"
+    EthUsdt = "ETHUSDT"
 
 
 class KLineInterval(Enum):
@@ -22,10 +26,11 @@ class KLineInterval(Enum):
     OneDay = "1d"
 
 
-def fetch_k_line_data(symbol: str, interval: KLineInterval, limit: int = 1000,
-                      end_time: int = int(time.time()), proxies: dict = None) -> str:
+def fetch_klines(symbol: KLineSymbol, interval: KLineInterval,
+                 endtime_ms: int = int(time.time()) * 1000,
+                 limit: int = 1000, proxies: dict = None) -> str:
     assert limit <= 1000
     url = 'https://www.binance.com/api/v3/uiKlines?endTime={}&limit={}&symbol={}&interval={}' \
-        .format(dt.utc_last_ms_in_day(end_time), limit, symbol, interval.value)
+        .format(endtime_ms, limit, symbol.value, interval.value)
     resp = requests.get(url=url, proxies=proxies)
     return resp.text
