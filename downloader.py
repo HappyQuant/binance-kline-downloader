@@ -9,7 +9,7 @@ from utils import dt
 import os
 
 data_dir = "data"
-kline_symbol = KLineSymbol.BtcUsdt
+kline_symbol = KLineSymbol.EthUsdt
 kline_interval = KLineInterval.OneMinute
 
 data_path = "{}/{}/{}".format(data_dir, kline_symbol.value, kline_interval.value)

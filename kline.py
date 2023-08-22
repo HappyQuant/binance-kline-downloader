@@ -23,6 +23,9 @@ def fetch_all_klines_for_day(symbol: KLineSymbol, interval: KLineInterval,
         s = fetch_klines(symbol=symbol, interval=interval,
                          endtime_ms=last_ms, proxies=proxies)
         ks = json.loads(s)[::-1]
+        if len(ks) == 0 or ks[0][0] < first_ms:
+            return day_klines[::-1]
+
         for k in ks:
             if k[0] >= first_ms:
                 day_klines.append(k)
