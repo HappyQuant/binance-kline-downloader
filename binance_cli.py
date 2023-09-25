@@ -32,5 +32,7 @@ def fetch_klines(symbol: KLineSymbol, interval: KLineInterval,
     assert limit <= 1000
     url = 'https://www.binance.com/api/v3/uiKlines?endTime={}&limit={}&symbol={}&interval={}' \
         .format(endtime_ms, limit, symbol.value, interval.value)
-    resp = requests.get(url=url, proxies=proxies)
+    session = requests.Session()
+    session.trust_env = False
+    resp = session.get(url=url, proxies=proxies)
     return resp.text
